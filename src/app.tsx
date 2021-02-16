@@ -33,11 +33,19 @@ export interface Programme {
   role: string;
 }
 
+// overture does not support cross origin requests, so need to setup a proxy
 // const originalUrl =
 // "https://feeds.overturehq.com/feeds/8bc28381/20134028/12/performances.json";
 
 const proxyUrl =
   "https://hthsy35yo6.execute-api.eu-west-1.amazonaws.com/prod/feeds/8bc28381/20134028/12/performances.json";
+
+const formatDate = (date: Date) =>
+  new Date(date).toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
 
 export function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +63,7 @@ export function App() {
       .catch((e) => {
         console.log("ERROR", e);
         setError("Oops, something went wrong");
+        setIsLoading(false);
       });
   }, []);
 
@@ -65,17 +74,17 @@ export function App() {
       {performances.map((performance) => (
         <>
           <h3>
-            {performance.date}
+            {formatDate(performance.date)}
             {performance.endDate && performance.endDate !== performance.date
-              ? ` - ${performance.endDate}`
+              ? ` - ${formatDate(performance.endDate)}`
               : null}
           </h3>
           <h1>
             <strong>{performance.eventName}</strong>
             {performance.eventSubtitle}
           </h1>
-          <p>Start time: {performance.time}</p>
-          {performance.venue && <p>Venue: {performance.venue}</p>}
+          <p>Start time: {performance.time || "TBC"}</p>
+          <p>Venue: {performance.venue || "TBC"}</p>
           {performance.ticketLink &&
             typeof performance.ticketLink === "string" && (
               <p>
