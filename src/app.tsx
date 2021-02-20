@@ -36,16 +36,20 @@ export interface Programme {
 // overture does not support cross origin requests, so need to setup a proxy
 // const originalUrl =
 // "https://feeds.overturehq.com/feeds/8bc28381/20134028/12/performances.json";
-
 const proxyUrl =
   "https://hthsy35yo6.execute-api.eu-west-1.amazonaws.com/prod/feeds/8bc28381/20134028/12/performances.json";
 
-const formatDate = (date: Date) =>
-  new Date(date).toLocaleDateString(undefined, {
+const formatDate = (dateStr: Date) => {
+  const date = new Date(dateStr);
+  const localeString = date.toLocaleDateString(undefined, {
     weekday: "short",
     month: "short",
     day: "numeric",
   });
+
+  const dateWithYear = `${localeString} ${date.getFullYear()}`;
+  return dateWithYear;
+};
 
 export function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -79,18 +83,36 @@ export function App() {
               ? ` - ${formatDate(performance.endDate)}`
               : null}
           </h3>
-          <h1>
+          <h2>
             <strong>{performance.eventName}</strong>
             {performance.eventSubtitle}
-          </h1>
+          </h2>
           <p>Start time: {performance.time || "TBC"}</p>
-          <p>Venue: {performance.venue || "TBC"}</p>
-          {performance.ticketLink &&
-            typeof performance.ticketLink === "string" && (
-              <p>
-                Ticket Link: <a href={performance.ticketLink}>Click here</a>
-              </p>
+          <p>
+            Venue: {performance.venue || "TBC"}{" "}
+            {performance.lat && performance.lng ? (
+              <a
+                target="blank"
+                href={`https://maps.google.com/?q=${performance.lat},${performance.lng}`}
+              >
+                Google maps
+              </a>
+            ) : null}
+          </p>
+
+          <p>
+            Tickets:{" "}
+            {performance.ticketLink &&
+            typeof performance.ticketLink === "string" ? (
+              <a target="blank" href={performance.ticketLink}>
+                Click here
+              </a>
+            ) : (
+              "TBC"
             )}
+          </p>
+
+          <hr style={{ color: "rgba(204,204,204,.63)", height: "1px" }} />
         </>
       ))}
     </>
