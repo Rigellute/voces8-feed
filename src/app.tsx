@@ -92,6 +92,7 @@ export function App() {
             Venue: {performance.venue || "TBC"}{" "}
             {performance.lat && performance.lng ? (
               <a
+                style={{ color: "#007f80", textDecoration: "underline" }}
                 target="blank"
                 href={`https://maps.google.com/?q=${performance.lat},${performance.lng}`}
               >
@@ -104,7 +105,11 @@ export function App() {
             Tickets:{" "}
             {performance.ticketLink &&
             typeof performance.ticketLink === "string" ? (
-              <a target="blank" href={performance.ticketLink}>
+              <a
+                target="blank"
+                href={performance.ticketLink}
+                style={{ color: "#007f80", textDecoration: "underline" }}
+              >
                 Click here
               </a>
             ) : (
@@ -112,7 +117,7 @@ export function App() {
             )}
           </p>
 
-          <hr style={{ color: "rgba(204,204,204,.63)", height: "1px" }} />
+          <hr style={{ color: "rgba(204,204,204,.63)" }} />
         </>
       ))}
     </>
