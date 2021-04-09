@@ -33,6 +33,13 @@ export interface Programme {
   role: string;
 }
 
+const createLink = (url: string) => {
+  if (!url.match(/^http?:\/\//i) || !url.match(/^https?:\/\//i)) {
+    return "http://" + url;
+  }
+  return url;
+};
+
 // overture does not support cross origin requests, so need to setup a proxy
 // const originalUrl =
 // "https://feeds.overturehq.com/feeds/8bc28381/20134028/12/performances.json";
@@ -77,37 +84,34 @@ export function App() {
       {error && <p>{error}</p>}
       {performances.map((performance) => (
         <>
-          <h3>
-            {formatDate(performance.date)}
-            {performance.endDate && performance.endDate !== performance.date
-              ? ` - ${formatDate(performance.endDate)}`
-              : null}
-          </h3>
           <h2>
             <strong>{performance.eventName}</strong>
             {performance.eventSubtitle}
           </h2>
-          <p>Start time: {performance.time || "TBC"}</p>
-          <p>
-            Venue: {performance.venue || "TBC"}{" "}
+          <strong>
+            {formatDate(performance.date)}
+            {performance.endDate && performance.endDate !== performance.date
+              ? ` - ${formatDate(performance.endDate)}`
+              : null}
+          </strong>
+          <div>
+            Start time: {performance.time || "TBC"} Venue:{" "}
+            {performance.venue || "TBC"}{" "}
             {performance.lat && performance.lng ? (
               <a
                 style={{ color: "#007f80", textDecoration: "underline" }}
                 target="blank"
                 href={`https://maps.google.com/?q=${performance.lat},${performance.lng}`}
               >
-                Google maps
+                Maps
               </a>
-            ) : null}
-          </p>
-
-          <p>
+            ) : null}{" "}
             Tickets:{" "}
             {performance.ticketLink &&
             typeof performance.ticketLink === "string" ? (
               <a
                 target="blank"
-                href={performance.ticketLink}
+                href={createLink(performance.ticketLink)}
                 style={{ color: "#007f80", textDecoration: "underline" }}
               >
                 Click here
@@ -115,7 +119,7 @@ export function App() {
             ) : (
               "TBC"
             )}
-          </p>
+          </div>
 
           <hr style={{ color: "rgba(204,204,204,.63)" }} />
         </>
