@@ -95,30 +95,34 @@ export function App() {
               : null}
           </strong>
           <div>
-            Start time: {performance.time || "TBC"} Venue:{" "}
-            {performance.venue || "TBC"}{" "}
-            {performance.lat && performance.lng ? (
-              <a
-                style={{ color: "#007f80", textDecoration: "underline" }}
-                target="blank"
-                href={`https://maps.google.com/?q=${performance.lat},${performance.lng}`}
-              >
-                Maps
-              </a>
-            ) : null}{" "}
-            Tickets:{" "}
-            {performance.ticketLink &&
-            typeof performance.ticketLink === "string" ? (
-              <a
-                target="blank"
-                href={createLink(performance.ticketLink)}
-                style={{ color: "#007f80", textDecoration: "underline" }}
-              >
-                Click here
-              </a>
-            ) : (
-              "TBC"
-            )}
+            <div>Start time: {performance.time || "TBC"}</div>
+            <div>
+              Venue: {performance.venue || "TBC"}{" "}
+              {performance.lat && performance.lng ? (
+                <a
+                  style={{ color: "#007f80", textDecoration: "underline" }}
+                  target="blank"
+                  href={`https://maps.google.com/?q=${performance.lat},${performance.lng}`}
+                >
+                  Maps
+                </a>
+              ) : null}
+            </div>
+            <div>
+              Tickets:{" "}
+              {performance.ticketLink &&
+              typeof performance.ticketLink === "string" ? (
+                <a
+                  target="blank"
+                  href={createLink(performance.ticketLink)}
+                  style={{ color: "#007f80", textDecoration: "underline" }}
+                >
+                  Click here
+                </a>
+              ) : (
+                "TBC"
+              )}
+            </div>
           </div>
 
           <hr style={{ color: "rgba(204,204,204,.63)" }} />
