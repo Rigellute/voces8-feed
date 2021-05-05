@@ -9,7 +9,9 @@ import "./index.css";
 // @ts-ignore
 window.Squarespace.onInitialize(Y, () => {
     const element = document.getElementById("voces8-feed");
+    console.log('onInitialize is running')
     if (element) {
+        console.log('Element found, running preact');
         render(<App/>, element);
     }
 });
