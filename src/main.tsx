@@ -8,5 +8,8 @@ import "./index.css";
  */
 // @ts-ignore
 window.Squarespace.onInitialize(Y, () => {
-    render(<App/>, document.getElementById("voces8-feed")!);
+    const element = document.getElementById("voces8-feed");
+    if (element) {
+        render(<App/>, element);
+    }
 });
