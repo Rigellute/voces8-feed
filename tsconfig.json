@@ -3,7 +3,6 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": [],
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": false,
@@ -17,7 +16,8 @@
     "noEmit": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment"
+    "jsxFragmentFactory": "Fragment",
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }
