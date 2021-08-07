@@ -1,11 +1,12 @@
-import { h, Fragment } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { convert, LocalDate } from "@js-joda/core";
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
 
 export interface Performance {
   id: string;
-  date: Date;
+  date: string;
   time: string;
-  endDate: Date;
+  endDate: string;
   eventName: string;
   eventSubtitle: boolean;
   bookingName: string;
@@ -46,16 +47,14 @@ const createLink = (url: string) => {
 const proxyUrl =
   "https://hthsy35yo6.execute-api.eu-west-1.amazonaws.com/prod/feeds/8bc28381/20134028/12/performances.json";
 
-const formatDate = (dateStr: Date) => {
-  const date = new Date(dateStr);
-  const localeString = date.toLocaleDateString(undefined, {
+const formatDate = (dateStr: string) => {
+  const date = convert(LocalDate.parse(dateStr)).toDate();
+  return date.toLocaleDateString(undefined, {
     weekday: "short",
     month: "short",
     day: "numeric",
-  });
-
-  const dateWithYear = `${localeString} ${date.getFullYear()}`;
-  return dateWithYear;
+    year: 'numeric'
+  })
 };
 
 export function App() {
@@ -79,11 +78,11 @@ export function App() {
   }, []);
 
   return (
-    <>
+    <div>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {performances.map((performance) => (
-        <>
+        <div>
           <h2>
             <strong>{performance.eventName}</strong>
             {performance.eventSubtitle}
@@ -126,8 +125,8 @@ export function App() {
           </div>
 
           <hr style={{ color: "rgba(204,204,204,.63)" }} />
-        </>
+        </div>
       ))}
-    </>
+    </div>
   );
 }
