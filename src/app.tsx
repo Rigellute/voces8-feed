@@ -41,30 +41,27 @@ const createLink = (url: string) => {
   return url;
 };
 
-// overture does not support cross origin requests, so need to setup a proxy
-// const originalUrl =
-// "https://feeds.overturehq.com/feeds/8bc28381/20134028/12/performances.json";
-const proxyUrl =
-  "https://hthsy35yo6.execute-api.eu-west-1.amazonaws.com/prod/feeds/8bc28381/20134028/12/performances.json";
-
 const formatDate = (dateStr: string) => {
   const date = convert(LocalDate.parse(dateStr)).toDate();
   return date.toLocaleDateString(undefined, {
     weekday: "short",
     month: "short",
     day: "numeric",
-    year: 'numeric'
-  })
+    year: "numeric",
+  });
 };
 
-export function App() {
+interface Props {
+  url: string;
+}
+export function App({ url }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [performances, setPerformances] = useState<Performance[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(proxyUrl)
+    fetch(url)
       .then((res) => res.json())
       .then((performances: Performance[]) => {
         setPerformances(performances);
